@@ -1,1 +1,1 @@
-this app progranned by mahmoud yousry (osvirus)
+this app programmed by mahmoud yousry (osvirus)
