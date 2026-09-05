@@ -76,6 +76,7 @@ function openDb() {
     };
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
+    req.onerror = () => reject(req.error);
   });
 }
 
@@ -83,8 +84,8 @@ async function dbPut(store, value) {
   const db = await openDb();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(store, "readwrite");
-    const s = tx.objectStore(store);
-    const req = s.put(value);
+    const objectStore = tx.objectStore(store);
+    const req = objectStore.put(value);
     req.onsuccess = () => resolve();
     req.onerror = () => reject(req.error);
   });
@@ -516,6 +517,7 @@ async function clearMyData() {
 }
 
 async function clearAllData() {
+  if (!state.user || state.user.role !== "admin") throw new Error("حذف السجلات متاح للـ Admin فقط.");
   stopMovementWatch();
   await dbClear(STORE_LOGS);
   await dbClear(STORE_MOVEMENT);
@@ -606,17 +608,6 @@ function init() {
       await exportAllExcel();
     } catch (e) {
       toast(e.message || "فشل التصدير.");
-    }
-  });
-
-  $("btnClearMyData").addEventListener("click", async () => {
-    if (!confirm("متأكد؟ سيتم مسح بياناتك من هذا المتصفح فقط.")) return;
-    try {
-      await clearMyData();
-      await refreshEmployeeTable();
-      await refreshEmployeeTodayCard();
-    } catch (e) {
-      toast(e.message || "فشل المسح.");
     }
   });
 
