@@ -1,0 +1,3 @@
+backend/attendance.db
+backend/__pycache__/
+.env

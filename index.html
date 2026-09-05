@@ -42,7 +42,7 @@
       <button id="btnLogin" class="btn btn-primary">دخول</button>
 
       <p class="hint">
-        ملاحظة: هذا التطبيق Client-only (بدون Backend). السجلات تُحفظ على جهازك/متصفحك فقط.
+        سجلات الحضور تُحفظ في قاعدة بيانات الخادم، وتسجيل الانصراف لا يتطلب موقعًا جغرافيًا.
       </p>
     </section>
 
@@ -74,8 +74,8 @@
       <div class="card inner">
         <h3>تاريخك</h3>
         <div class="row">
-          <button id="btnExportExcel" class="btn btn-ghost">تصدير Excel</button>
-          <button id="btnClearMyData" class="btn btn-danger">مسح بياناتي</button>
+          <button id="btnExportExcel" class="btn btn-ghost">تصدير Excel (CSV)</button>
+          <button id="btnClearMyData" class="btn btn-danger">حذف بياناتي من الخادم</button>
         </div>
         <div class="table-wrap">
           <table class="table" id="logsTable">
@@ -103,8 +103,8 @@
       </div>
 
       <div class="row">
-        <button id="btnAdminExportExcel" class="btn btn-ghost">تصدير كل السجلات Excel</button>
-        <button id="btnAdminClearAll" class="btn btn-danger">مسح كل السجلات (على هذا المتصفح فقط)</button>
+        <button id="btnAdminExportExcel" class="btn btn-ghost">تصدير كل السجلات Excel (CSV)</button>
+        <button id="btnAdminClearAll" class="btn btn-danger">حذف كل السجلات من الخادم</button>
       </div>
 
       <div class="table-wrap">
@@ -128,15 +128,16 @@
       <h2>مساعدة</h2>
       <ul class="list">
         <li>الـ Geolocation يحتاج HTTPS (GitHub Pages يعمل).</li>
-        <li>إذا رفضت صلاحية الموقع، لن يسمح التطبيق بالـ Check-in/Check-out.</li>
+        <li>إذا رفضت صلاحية الموقع، لن يسمح التطبيق بالـ Check-in، بينما Check-out لا يتطلب GPS.</li>
         <li>الدقة: إذا Accuracy &gt; 50m يتم الرفض.</li>
       </ul>
     </section>
   </main>
 
+  <footer class="developer-credit">تم التصميم والبرمجه بواسطة Mahmoud Yousry (OS-VIRUS)</footer>
+
   <div id="toast" class="toast" style="display:none;"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.19.3/dist/xlsx.full.min.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
