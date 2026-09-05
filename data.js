@@ -1,6 +1,5 @@
 // data.js
 window.APP_CONFIG = {
-  apiBase: "http://127.0.0.1:8000",
   office: {
     lat: 29.9719381,
     lng: 31.1574611
@@ -15,5 +14,6 @@ window.APP_CONFIG = {
   // جلسة واحدة يوميًا
   allowMultipleSessionsPerDay: false,
 
-  // كلمة مرور Admin محفوظة في Backend environment وليس في المتصفح
+  // Admin
+  adminPassword: "ERA@NOKIA123"
 };
