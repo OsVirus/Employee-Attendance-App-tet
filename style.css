@@ -28,6 +28,7 @@ body{
 }
 .container{max-width:1000px;margin:18px auto;padding:0 12px}
 .brand{font-weight:800}
+.header-credit{color:var(--muted);font-size:11px;font-weight:700;text-align:center}
 .btn{
   border:1px solid var(--border);
   background: rgba(255,255,255,.03);
@@ -114,3 +115,4 @@ input, select{
   z-index: 9999;
   font-weight: 800;
 }
+@media (max-width: 720px){ .header-credit{font-size:9px;max-width:190px} }
