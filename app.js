@@ -237,14 +237,6 @@ async function attemptCheckOut() {
   if (!log || !log.checkIn) throw new Error("لا يوجد Check-in اليوم.");
   if (log.checkOut) throw new Error("تم Check-out بالفعل.");
 
-  $("geoStatus").textContent = "جاري الحصول على الموقع (Check-out)...";
-
-  const pos = await requestPositionOnce();
-  const geo = computeGeoOk(pos.coords);
-
-  if (!geo.accOk) throw new Error(`رفض: دقة GPS (${Math.round(geo.accuracy)}m) أعلى من الحد (${maxGpsAccuracyMeters}m).`);
-  if (!geo.inFence) throw new Error(`رفض: خارج نطاق المكتب (المسافة ~ ${Math.round(geo.metersFromOffice)}m، المسموح ${geofenceRadiusMeters}m).`);
-
   stopMovementWatch();
 
   const now = Date.now();
@@ -252,16 +244,16 @@ async function attemptCheckOut() {
 
   log.checkOut = {
     time: now,
-    lat: geo.lat,
-    lng: geo.lng,
-    accuracy: geo.accuracy
+    lat: log.checkIn.lat,
+    lng: log.checkIn.lng,
+    accuracy: log.checkIn.accuracy
   };
   log.workSeconds = seconds;
 
   await dbPut(STORE_LOGS, log);
 
   const flagText = (log.flags && log.flags.length) ? ` | Flags: ${log.flags.join(", ")}` : "";
-  $("geoStatus").textContent = `Check-out تم ✅ | ${formatDuration(seconds)}${flagText}`;
+  $("geoStatus").textContent = `Check-out تم بدون تقييد الموقع ✅ | ${formatDuration(seconds)}${flagText}`;
   toast("تم Check-out بنجاح.");
   return log;
 }
