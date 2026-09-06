@@ -1,0 +1,1 @@
+# Keep the default release rules for this lightweight WebView wrapper.
