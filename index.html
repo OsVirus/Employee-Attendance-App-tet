@@ -8,7 +8,7 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">تتبع الحضور</div>
+    <div class="brand"><span class="nokia-mark">NOKIA</span><span class="brand-divider">·</span><span>تتبع الحضور</span></div>
     <div class="header-credit">تم التصميم والبرمجه بواسطة Mahmoud Yousry(OS-VIRUS)</div>
     <div class="actions">
       <button id="btnLogout" class="btn btn-ghost" style="display:none;">تسجيل خروج</button>
@@ -104,6 +104,19 @@
       <div class="row">
         <button id="btnAdminExportExcel" class="btn btn-ghost">تصدير كل السجلات Excel</button>
         <button id="btnAdminClearAll" class="btn btn-danger">مسح كل السجلات (على هذا المتصفح فقط)</button>
+      </div>
+
+      <div class="admin-metrics">
+        <div><span>إجمالي السجلات</span><strong id="adminTotalRecords">0</strong></div>
+        <div><span>إجمالي ساعات العمل</span><strong id="adminTotalHours">0h 00m</strong></div>
+        <div><span>حضور مكتمل</span><strong id="adminCompletedRecords">0</strong></div>
+        <div><span>خارج النطاق</span><strong id="adminFlaggedRecords">0</strong></div>
+      </div>
+
+      <div class="admin-filters">
+        <div class="field"><label for="adminDateFilter">التاريخ</label><input id="adminDateFilter" type="date" /></div>
+        <div class="field"><label for="adminEmployeeFilter">الموظف</label><input id="adminEmployeeFilter" type="search" placeholder="ابحث بالاسم" /></div>
+        <button id="btnClearAdminFilters" class="btn btn-ghost" type="button">مسح الفلاتر</button>
       </div>
 
       <div class="table-wrap">

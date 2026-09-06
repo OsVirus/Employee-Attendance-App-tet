@@ -15,7 +15,8 @@ const state = {
   user: null, // { username, role }
   watchId: null,
   lastSampleAt: 0,
-  outOfRangeSince: null
+  outOfRangeSince: null,
+  adminLogs: []
 };
 
 const DB_NAME = "attendance_db_v1";
@@ -417,15 +418,25 @@ function renderAdminView() {
 }
 
 async function refreshAdminTable() {
-  const logs = await dbGetAllLogs();
-  logs.sort((a,b) => (b.date || "").localeCompare(a.date || ""));
+  state.adminLogs = await dbGetAllLogs();
+  const dateFilter = $("adminDateFilter").value;
+  const employeeFilter = $("adminEmployeeFilter").value.trim().toLowerCase();
+  const logs = state.adminLogs.filter((log) => {
+    const matchesDate = !dateFilter || log.date === dateFilter;
+    const matchesEmployee = !employeeFilter || log.username.toLowerCase().includes(employeeFilter);
+    return matchesDate && matchesEmployee;
+  }).sort((a,b) => (b.date || "").localeCompare(a.date || ""));
+
+  const totalSeconds = state.adminLogs.reduce((sum, log) => sum + (log.workSeconds || 0), 0);
+  $("adminTotalRecords").textContent = state.adminLogs.length;
+  $("adminTotalHours").textContent = formatDuration(totalSeconds);
+  $("adminCompletedRecords").textContent = state.adminLogs.filter((log) => log.checkOut).length;
+  $("adminFlaggedRecords").textContent = state.adminLogs.filter((log) => log.flags?.includes("OUT_OF_GEOFENCE")).length;
 
   const tbody = $("adminTable").querySelector("tbody");
   tbody.innerHTML = "";
 
-  // عرض الأحدث أولاً حسب التاريخ
-  const sorted = logs.sort((a,b) => (b.date || "").localeCompare(a.date || ""));
-  for (const l of sorted) {
+  for (const l of logs) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${l.username}</td>
@@ -437,6 +448,7 @@ async function refreshAdminTable() {
     `;
     tbody.appendChild(tr);
   }
+  if (!logs.length) tbody.innerHTML = '<tr><td colspan="6">لا توجد سجلات مطابقة للفلاتر.</td></tr>';
 }
 
 function makeExcel(rows, sheetName="Attendance") {
@@ -618,6 +630,14 @@ function init() {
     } catch (e) {
       toast(e.message || "فشل المسح.");
     }
+  });
+
+  $("adminDateFilter").addEventListener("input", refreshAdminTable);
+  $("adminEmployeeFilter").addEventListener("input", refreshAdminTable);
+  $("btnClearAdminFilters").addEventListener("click", () => {
+    $("adminDateFilter").value = "";
+    $("adminEmployeeFilter").value = "";
+    refreshAdminTable();
   });
 
   initBootGeoStatus();
