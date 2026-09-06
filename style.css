@@ -20,7 +20,7 @@ body{
   position:relative;
   isolation:isolate;
 }
-body::before{content:"NOKIA";position:fixed;inset:0;display:grid;place-items:center;font-size:clamp(140px,27vw,380px);font-weight:900;letter-spacing:-8px;color:#55a8ff;opacity:.14;text-shadow:0 0 24px rgba(47,125,255,.28);transform:rotate(-12deg);pointer-events:none;z-index:-1;white-space:nowrap}
+.page-watermark{position:fixed;inset:0;display:grid;place-items:center;font-size:clamp(140px,27vw,380px);font-weight:900;letter-spacing:-8px;color:#55a8ff;opacity:.14;text-shadow:0 0 24px rgba(47,125,255,.28);transform:rotate(-12deg);pointer-events:none;z-index:0;white-space:nowrap}.topbar,.container,.developer-credit{position:relative;z-index:1}
 .topbar{
   position:sticky; top:0;
   backdrop-filter: blur(10px);
